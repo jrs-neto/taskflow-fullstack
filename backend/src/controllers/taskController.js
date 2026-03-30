@@ -17,7 +17,31 @@ const createTask = (req, res) => {
   res.status(201).json(newTask);
 };
 
+const updateTask = (req, res) => {
+  const id = parseInt(req.params.id);
+  const updateTask = taskService.updateTask(id, req.body);
+
+  if (!updateTask) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  res.json(updateTask);
+};
+
+const deleteTask = (req, res) => {
+  const id = parseInt(req.params.id);
+  const deleted = taskService.deleteTask(id);
+
+  if (!deleted) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  res.status(204).send();
+};
+
 module.exports = {
   getTasks,
   createTask,
+  updateTask,
+  deleteTask,
 };
